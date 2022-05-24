@@ -36,7 +36,6 @@ import Help from "./layouts/Dashboard/help";
 import Loan from "./layouts/Loan";
 import "./App.css";
 import Logout from "./components/logout";
-// import ProtectedRoute from "./components/protectedRoute";/
 import { isMobile } from "react-device-detect";
 
 import "react-toastify/dist/ReactToastify.css";
