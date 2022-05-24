@@ -9,6 +9,11 @@ function getScreenWidth() {
 const PaintWork = () => {
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
   const workSelectedCtx = useContext(workSelectedContext);
+  const [selectedPlanLow, setSelectedPlanLow] = useState(false);
+  const [selectedPlanStandard, setSelectedPlanStandard] = useState(false);
+  const [selectedPlanExtensive, setSelectedPlanExtensive] = useState(false);
+  const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
+
   useEffect(() => {
     function handleResize() {
       setScreenWidth(getScreenWidth());
@@ -120,6 +125,17 @@ const PaintWork = () => {
     fontSize: "15px",
     textAlign: "center",
   };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
+    borderRadius: "6px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    padding: "8px 20px",
+    fontSize: "15px",
+    textAlign: "center",
+  };
   const backBtn = {
     background: "white",
     borderRadius: "6px",
@@ -179,16 +195,19 @@ const PaintWork = () => {
       name: "Low",
       image: "https://i.ibb.co/VSdkpFw/Group.png",
       text: "Includes basic works like touch up in the rooms, and very minimal base and paint work",
+      selected: selectedPlanLow,
     },
     {
       name: "Standard",
       image: "https://i.ibb.co/3hH4XLZ/Group-1.png",
       text: "Includes regular works like base preparation and full coat of paint",
+      selected: selectedPlanStandard,
     },
     {
       name: "Extensive",
       image: `${extensive}`,
       text: "Includes extensive works likeI base preparation, full coat of paint and also some wall textures and color blocking",
+      selected: selectedPlanExtensive,
     },
   ];
   return (
@@ -247,13 +266,11 @@ const PaintWork = () => {
                   {paint.map((data) => (
                     <div
                       className="shadow p-3 mb-3 bg-body rounded d-flex justify-content-evenly"
+                      style={{
+                        border: data.selected ? "2px solid #2CBF81" : "",
+                        borderRadius: "7px",
+                      }}
                       key={data.name}
-                      onClick={() =>
-                        localStorage.setItem(
-                          "paintWorkPlanSelected",
-                          `${data.name}`
-                        )
-                      }
                     >
                       <img src={data.image} style={icon} alt="" />
                       <div>
@@ -266,6 +283,26 @@ const PaintWork = () => {
                           type="radio"
                           name="flexRadioDefault"
                           id="flexRadioDefault1"
+                          onClick={() => {
+                            localStorage.setItem(
+                              "paintWorkPlanSelected",
+                              `${data.name}`
+                            );
+                            setNextBtnDisabled(false);
+                            if (data.name === "Low") {
+                              setSelectedPlanLow(true);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Standard") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(true);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Extensive") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(true);
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -280,9 +317,15 @@ const PaintWork = () => {
                   </button>
                 </Link>
                 <Link to="/paintWorkDetail">
-                  <button type="button" style={startBtn}>
-                    Next
-                  </button>
+                  {nextBtnDisabled ? (
+                    <button type="button" style={startBtnDisabled} disabled>
+                      Next
+                    </button>
+                  ) : (
+                    <button type="button" style={startBtn}>
+                      Next
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -387,13 +430,11 @@ const PaintWork = () => {
                   {paint.map((data) => (
                     <div
                       className="shadow p-3 mb-3 bg-body rounded d-flex justify-content-evenly"
+                      style={{
+                        border: data.selected ? "2px solid #2CBF81" : "",
+                        borderRadius: "7px",
+                      }}
                       key={data.name}
-                      onClick={() =>
-                        localStorage.setItem(
-                          "paintWorkPlanSelected",
-                          `${data.name}`
-                        )
-                      }
                     >
                       <img src={data.image} style={icon} alt="" />
                       <div>
@@ -406,6 +447,26 @@ const PaintWork = () => {
                           type="radio"
                           name="flexRadioDefault"
                           id="flexRadioDefault1"
+                          onClick={() => {
+                            localStorage.setItem(
+                              "paintWorkPlanSelected",
+                              `${data.name}`
+                            );
+                            setNextBtnDisabled(false);
+                            if (data.name === "Low") {
+                              setSelectedPlanLow(true);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Standard") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(true);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Extensive") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(true);
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -420,9 +481,15 @@ const PaintWork = () => {
                   </button>
                 </Link>
                 <Link to="/paintWorkDetail">
-                  <button type="button" style={startBtn}>
-                    Next
-                  </button>
+                  {nextBtnDisabled ? (
+                    <button type="button" style={startBtnDisabled} disabled>
+                      Next
+                    </button>
+                  ) : (
+                    <button type="button" style={startBtn}>
+                      Next
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>

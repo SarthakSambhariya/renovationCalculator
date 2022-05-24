@@ -10,8 +10,10 @@ function getScreenWidth() {
 const Electrical = () => {
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
   const workSelectedCtx = useContext(workSelectedContext);
-  const localStorageChecker = localStorage.getItem("electricWorkPlanSelected");
-  const planSelected = false;
+  const [selectedPlanLow, setSelectedPlanLow] = useState(false);
+  const [selectedPlanStandard, setSelectedPlanStandard] = useState(false);
+  const [selectedPlanExtensive, setSelectedPlanExtensive] = useState(false);
+  const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
 
   useEffect(() => {
     function handleResize() {
@@ -124,6 +126,17 @@ const Electrical = () => {
     fontSize: "15px",
     textAlign: "center",
   };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
+    borderRadius: "6px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    padding: "8px 20px",
+    fontSize: "15px",
+    textAlign: "center",
+  };
   const backBtn = {
     background: "white",
     borderRadius: "6px",
@@ -214,16 +227,19 @@ const Electrical = () => {
       name: "Low",
       image: "https://i.ibb.co/VSdkpFw/Group.png",
       text: " Involves basic works like a few new switches and shifting of points",
+      selected: selectedPlanLow,
     },
     {
       name: "Standard",
       image: "https://i.ibb.co/3hH4XLZ/Group-1.png",
       text: " Involves regular works like new switches, points to be shifted and ceiling lights. Some new wiring may also be required",
+      selected: selectedPlanStandard,
     },
     {
       name: "Extensive",
       image: `${extensive}`,
       text: "Involves extensive works in home like fresh wiring to be done throughout and all wall and ceiling points to be made",
+      selected: selectedPlanExtensive,
     },
   ];
   return (
@@ -281,8 +297,12 @@ const Electrical = () => {
                 <div className="col-md-7 ">
                   {electric.map((data) => (
                     <div
-                      className="d-flex shadow p-3 mb-3 bg-body justify-content-evenly"
+                      className={`d-flex shadow p-3 mb-3 bg-body justify-content-evenly`}
                       key={data.name}
+                      style={{
+                        border: data.selected ? "2px solid #2CBF81" : "",
+                        borderRadius: "7px",
+                      }}
                     >
                       <img src={data.image} style={icon} alt="" />
                       <div>
@@ -294,13 +314,27 @@ const Electrical = () => {
                           className="form-check-input"
                           type="radio"
                           name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                          onClick={() =>
+                          id={`flexRadioDefault${data.name}`}
+                          onClick={(e) => {
                             localStorage.setItem(
                               "electricWorkPlanSelected",
                               `${data.name}`
-                            )
-                          }
+                            );
+                            setNextBtnDisabled(false);
+                            if (data.name === "Low") {
+                              setSelectedPlanLow(true);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Standard") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(true);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Extensive") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(true);
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -315,9 +349,15 @@ const Electrical = () => {
                   </button>
                 </Link>
                 <Link to="/electricDetail">
-                  <button type="button" style={startBtn}>
-                    Next
-                  </button>
+                  {nextBtnDisabled ? (
+                    <button type="button" style={startBtnDisabled} disabled>
+                      Next
+                    </button>
+                  ) : (
+                    <button type="button" style={startBtn}>
+                      Next
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -423,12 +463,30 @@ const Electrical = () => {
                     <div
                       className="d-flex shadow p-3 mb-3 bg-body justify-content-evenly"
                       key={data.name}
-                      onClick={() =>
+                      style={{
+                        border: data.selected ? "2px solid #2CBF81" : "",
+                        borderRadius: "7px",
+                      }}
+                      onClick={() => {
                         localStorage.setItem(
                           "electricWorkPlanSelected",
                           `${data.name}`
-                        )
-                      }
+                        );
+                        setNextBtnDisabled(false);
+                        if (data.name === "Low") {
+                          setSelectedPlanLow(true);
+                          setSelectedPlanStandard(false);
+                          setSelectedPlanExtensive(false);
+                        } else if (data.name === "Standard") {
+                          setSelectedPlanLow(false);
+                          setSelectedPlanStandard(true);
+                          setSelectedPlanExtensive(false);
+                        } else if (data.name === "Extensive") {
+                          setSelectedPlanLow(false);
+                          setSelectedPlanStandard(false);
+                          setSelectedPlanExtensive(true);
+                        }
+                      }}
                     >
                       <img src={data.image} style={icon} alt="" />
                       <div>
@@ -455,9 +513,15 @@ const Electrical = () => {
                   </button>
                 </Link>
                 <Link to="/electricDetail">
-                  <button type="button" style={startBtn}>
-                    Next
-                  </button>
+                  {nextBtnDisabled ? (
+                    <button type="button" style={startBtnDisabled}>
+                      Next
+                    </button>
+                  ) : (
+                    <button type="button" style={startBtn}>
+                      Next
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>

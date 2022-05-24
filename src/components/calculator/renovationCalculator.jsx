@@ -1,9 +1,9 @@
+import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import apartment from "../../images/apartment.png";
 import bunglow from "../../images/Bunglow.png";
-import calculatorProgress from "./Assets/calculatorProgress.svg";
-
+import "./../findprofessional/css/mobile/filter.css";
 function getScreenWidth() {
   const { innerWidth: width } = window;
   return width;
@@ -18,12 +18,14 @@ const RenovationCalculator = () => {
   const diningRef = useRef();
   const [bathroomRange, setBathroomRange] = useState(1);
   const [bedroomRange, setBedroomRange] = useState(1);
-
+  const [nextDisabled, setNextDisabled] = useState(true);
+ 
   const saveInputsToLocalStorageHandler = (e) => {
     localStorage.setItem("bedroom", bedroomsRef.current.value);
     localStorage.setItem("bathroom", bathroomsRef.current.value);
     localStorage.setItem("kitchen", kitchenRef.current.value);
     localStorage.setItem("dining", diningRef.current.value);
+  
   };
 
   const setRangeForInputsHandler = (e) => {
@@ -62,13 +64,24 @@ const RenovationCalculator = () => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [nextDisabled]);
 
+  function setNextButtonBehaviour() {
+    if (
+      carpetAreaRef.current.value.trim() !== "" &&
+      bedroomsRef.current.value.trim() !== "" &&
+      bathroomsRef.current.value.trim() !== "" &&
+      kitchenRef.current.value.trim() !== "" &&
+      diningRef.current.value.trim() !== ""
+    ) {
+      setNextDisabled(false);
+    }
+  }
   const textClass = {
     fontFamily: "DM Serif Display",
     color: "#000000",
-    fontWeight: "500",
-    fontSize: "3.3rem",
+    fontWeight: "400",
+    fontSize: "48px",
     marginTop: "20px",
   };
   const textClassMob = {
@@ -83,7 +96,7 @@ const RenovationCalculator = () => {
     fontFamily: "Inter",
     fontWeight: "500",
     fontSize: "24px",
-    marginTop: "25px",
+    marginTop: "30px",
   };
   const box = {
     position: "absoulate",
@@ -96,9 +109,10 @@ const RenovationCalculator = () => {
     borderRadius: "10px 0 0 10px",
     border: "1px solid gray",
     outline: "none",
-    width: "200px",
+    width: "300px",
+    
     textAlign: "center",
-    height: "35px",
+    height: "38px",
   };
   const inputFieldMob = {
     position: "relative",
@@ -118,7 +132,7 @@ const RenovationCalculator = () => {
     border: "1px solid gray",
     outline: "none",
     color: "blue",
-    height: "35px",
+    height: "38px",
     textAlign: "center",
     borderLeft: "1px solid gray",
   };
@@ -165,8 +179,34 @@ const RenovationCalculator = () => {
     textAlign: "center",
     width: "25%",
   };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
+    borderRadius: "7px",
+    color: "white",
+    border: "none",
+    marginTop: "30px",
+    marginBottom: "10px",
+    padding: "8px 20px",
+    fontSize: "17px",
+    textAlign: "center",
+    width: "25%",
+  };
   const startBtnMob = {
     background: "linear-gradient(180deg, #3B5998 0%, #082B76 100%)",
+    borderRadius: "7px",
+    color: "white",
+    border: "none",
+    width: "100%",
+    margin: "30px auto 10px auto",
+    // marginBottom: "10px",
+    padding: "8px 20px",
+    fontSize: "17px",
+    textAlign: "center",
+  };
+  const startBtnMobDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
     borderRadius: "7px",
     color: "white",
     border: "none",
@@ -192,13 +232,13 @@ const RenovationCalculator = () => {
     marginTop: "0px",
     // transform: "rotate(-90deg)",
   };
-  const hrStyleProgress = {
-    height: "320px",
-    width: "15px",
-    borderRadius: "8px",
-    background: "#404898",
-    marginTop: "1px",
-  };
+  // const hrStyleProgress = {
+  //   height: "320px",
+  //   width: "15px",
+  //   borderRadius: "8px",
+  //   background: "#404898",
+  //   marginTop: "1px",
+  // };
   const hrStyleMobProgress = {
     height: "10px",
     width: "66%",
@@ -239,14 +279,14 @@ const RenovationCalculator = () => {
     background: "#3B5998",
     marginTop: "1px",
   };
-  const hrStyle2 = {
-    height: "480px",
-    width: "15px",
-    borderRadius: "8px",
-    background: "#F1F1F1",
-    marginTop: "19px",
-    transform: "rotate(90deg)",
-  };
+  // const hrStyle2 = {
+  //   height: "480px",
+  //   width: "15px",
+  //   borderRadius: "8px",
+  //   background: "#F1F1F1",
+  //   marginTop: "19px",
+  //   transform: "rotate(90deg)",
+  // };
   const stepOne = {
     color: "#000000",
     fontFamily: "Inter",
@@ -296,15 +336,15 @@ const RenovationCalculator = () => {
       {screenWidth > 600 && (
         <div className="container mt-5">
           <h1 style={textClass}>Renovation Calculator</h1>
-          <div className="row gx-5 mt-3 direction">
+          <div className="row gx-5 mt-3 direction" id="reno">
             <div className="col-md-9 shadow rounded">
               <div className="row direction">
-                <div className="col-md-7">
+                <div className="col-md-7" id="renov">
                   <h4 style={propertyText}>Property Type</h4>
                   {/* toggle button */}
                   <div className="d-flex btn align-center mt-4">
                     <button
-                      type="button"
+                      type="button" id="buttonsreno"
                       className={
                         changeCategory === "apartment"
                           ? "btn blue btn-lg text-light me-3"
@@ -318,7 +358,7 @@ const RenovationCalculator = () => {
                       Apartment
                     </button>
                     <button
-                      type="button"
+                      type="button" id="buttonsreno"
                       className={
                         changeCategory === "bungalow"
                           ? "btn blue btn-lg text-light me-3"
@@ -348,6 +388,7 @@ const RenovationCalculator = () => {
                           min="300"
                           onBlur={setRangeForInputsHandler}
                           ref={carpetAreaRef}
+                          onChange={setNextButtonBehaviour}
                         />
                         <input disabled style={inputsqft} placeholder="sqft" />
                       </div>
@@ -373,6 +414,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bedroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -394,6 +436,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bathroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
@@ -417,6 +460,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={kitchenRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -438,17 +482,28 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={diningRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
                       <Link to="/renovationTypes">
-                        <button
-                          type="button"
-                          style={startBtn}
-                          onClick={saveInputsToLocalStorageHandler}
-                        >
-                          Next
-                        </button>
+                        {nextDisabled ? (
+                          <button
+                            type="button"
+                            style={startBtnDisabled}
+                            disabled
+                          >
+                            Next
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            style={startBtn}
+                            onClick={saveInputsToLocalStorageHandler}
+                          >
+                            Next
+                          </button>
+                        )}
                       </Link>
                     </>
                   )}
@@ -493,6 +548,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bedroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -514,6 +570,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bathroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
@@ -537,6 +594,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={kitchenRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -558,18 +616,29 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={diningRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
                       {/* next button */}
                       <Link to="/renovationTypes">
-                        <button
-                          type="button"
-                          style={startBtn}
-                          onClick={saveInputsToLocalStorageHandler}
-                        >
-                          Next
-                        </button>
+                        {nextDisabled ? (
+                          <button
+                            type="button"
+                            style={startBtnDisabled}
+                            disabled
+                          >
+                            Next
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            style={startBtn}
+                            onClick={saveInputsToLocalStorageHandler}
+                          >
+                            Next
+                          </button>
+                        )}
                       </Link>
                     </>
                   )}
@@ -612,7 +681,7 @@ const RenovationCalculator = () => {
                 <div style={hrStyle}>
                   <div style={hrProgressStyle}></div>
                 </div>
-                <div>
+                <div id="step">
                   <h3 style={stepOne}>Step 1</h3>
                   <h3 style={stepText}>Property Details</h3>
                   <h3 style={stepTwo}>Step 2</h3>
@@ -635,7 +704,7 @@ const RenovationCalculator = () => {
                 <div className="col-md-7">
                   <h4 style={propertyText}>Property Type</h4>
                   {/* toggle button */}
-                  <div className="d-flex btn align-center mt-4">
+                  <div className="d-flex btn align-center mt-4" >
                     <button
                       type="button"
                       className={
@@ -706,6 +775,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bedroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -727,6 +797,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bathroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
@@ -750,6 +821,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={kitchenRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -771,17 +843,28 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={diningRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
                       <Link to="/renovationTypes">
-                        <button
-                          type="button"
-                          style={startBtnMob}
-                          onClick={saveInputsToLocalStorageHandler}
-                        >
-                          Next
-                        </button>
+                        {nextDisabled ? (
+                          <button
+                            type="button"
+                            style={startBtnMobDisabled}
+                            disabled
+                          >
+                            Next
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            style={startBtnMob}
+                            onClick={saveInputsToLocalStorageHandler}
+                          >
+                            Next
+                          </button>
+                        )}
                       </Link>
                     </>
                   )}
@@ -826,6 +909,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bedroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -847,6 +931,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={bathroomsRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
@@ -870,6 +955,7 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={kitchenRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                         <div style={box}>
@@ -891,18 +977,29 @@ const RenovationCalculator = () => {
                               }
                             }}
                             ref={diningRef}
+                            onChange={setNextButtonBehaviour}
                           />
                         </div>
                       </div>
                       {/* next button */}
                       <Link to="/renovationTypes">
-                        <button
-                          type="button"
-                          style={startBtnMob}
-                          onClick={saveInputsToLocalStorageHandler}
-                        >
-                          Next
-                        </button>
+                        {nextDisabled ? (
+                          <button
+                            type="button"
+                            style={startBtnMobDisabled}
+                            disabled
+                          >
+                            Next
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            style={startBtnMob}
+                            onClick={saveInputsToLocalStorageHandler}
+                          >
+                            Next
+                          </button>
+                        )}
                       </Link>
                     </>
                   )}

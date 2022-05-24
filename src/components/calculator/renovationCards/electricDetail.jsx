@@ -1,15 +1,32 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import kitchen from "../../../images/kitchen iso 2.png";
-import calculatorProgress4 from "../Assets/calculatorProgress4.svg";
+import axios from "axios";
 function getScreenWidth() {
   const { innerWidth: width } = window;
+
   return width;
 }
+const handleSubmit = ()=>{
+  let ModularKitchen= localStorage.getItem('modularKitchenNeeded')
+  let BedroomWardrobes=localStorage.getItem('wardrobes')
+  let TvUnits=localStorage.getItem('tvUnits ')
+  console.log(ModularKitchen);
+  //  axios.post("/api/savecalculation", {
+  
+
+  // })
+  // .then((res)=>{
+  //   console.log(res)
+  // }).catch((error)=>{
+  //   console.log(error)
+  // })
+ }
 const ElectricDetail = () => {
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
   const wardrobesRef = useRef();
   const tvUnitsRef = useRef();
+  const [nextDisabled, setNextDisabled] = useState(true);
 
   useEffect(() => {
     function handleResize() {
@@ -23,6 +40,19 @@ const ElectricDetail = () => {
   const saveInputsToLocalStorageHandler = () => {
     localStorage.setItem("wardrobes", wardrobesRef.current.value);
     localStorage.setItem("tvUnits", tvUnitsRef.current.value);
+    handleSubmit();
+  };
+
+  const nextButtonDisableHandler = () => {
+    if (
+      tvUnitsRef.current.value.trim() !== "" &&
+      wardrobesRef.current.value.trim() !== "" &&
+      localStorage.getItem("modularKitchenNeeded")
+    )
+      setNextDisabled(false);
+    else {
+      setNextDisabled(true);
+    }
   };
   const textClass = {
     fontFamily: "DM Serif Display",
@@ -139,6 +169,17 @@ const ElectricDetail = () => {
     fontSize: "15px",
     textAlign: "center",
   };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
+    borderRadius: "6px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    padding: "8px 20px",
+    fontSize: "15px",
+    textAlign: "center",
+  };
   const backBtn = {
     background: "white",
     borderRadius: "6px",
@@ -152,6 +193,18 @@ const ElectricDetail = () => {
   };
   const startBtnMob = {
     background: "linear-gradient(180deg, #3B5998 0%, #082B76 100%)",
+    borderRadius: "3px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    marginBottom: "20px",
+    padding: "5px 20px",
+    fontSize: "15px",
+    textAlign: "center",
+  };
+  const startBtnMobDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
     borderRadius: "3px",
     color: "white",
     border: "none",
@@ -219,6 +272,7 @@ const ElectricDetail = () => {
     marginTop: "25px",
     marginBottom: "8px",
   };
+  console.warn(localStorage.getItem('bedroom'));
   return (
     <React.Fragment>
       {screenWidth > 600 && (
@@ -239,6 +293,7 @@ const ElectricDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", true);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -256,6 +311,7 @@ const ElectricDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", false);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -275,12 +331,18 @@ const ElectricDetail = () => {
                       type="number"
                       style={areasButton}
                       ref={wardrobesRef}
+                      onChange={nextButtonDisableHandler}
                     />
                   </div>
                   <p style={formText}>How many TV Units do you require ?</p>
                   <div style={box}>
                     <input style={areasInput} disabled placeholder="TV Units" />
-                    <input type="number" style={areasButton} ref={tvUnitsRef} />
+                    <input
+                      type="number"
+                      style={areasButton}
+                      ref={tvUnitsRef}
+                      onChange={nextButtonDisableHandler}
+                    />
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -298,13 +360,19 @@ const ElectricDetail = () => {
                     </button>
                   </Link>
                   <Link to="/modularSolution">
-                    <button
-                      type="button"
-                      style={startBtn}
-                      onClick={saveInputsToLocalStorageHandler}
-                    >
-                      Next
-                    </button>
+                    {nextDisabled ? (
+                      <button type="button" style={startBtnDisabled} disabled>
+                        Next
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        style={startBtn}
+                        onClick={saveInputsToLocalStorageHandler}
+                      >
+                        Next
+                      </button>
+                    )}
                   </Link>
                 </div>
               </div>
@@ -381,6 +449,7 @@ const ElectricDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", true);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -398,6 +467,7 @@ const ElectricDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", false);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -421,6 +491,7 @@ const ElectricDetail = () => {
                       type="number"
                       style={areasButton}
                       ref={wardrobesRef}
+                      onChange={nextButtonDisableHandler}
                     />
                   </div>
                   <p style={formText}>How many TV Units do you require ?</p>
@@ -430,7 +501,12 @@ const ElectricDetail = () => {
                       disabled
                       placeholder="TV Units"
                     />
-                    <input type="number" style={areasButton} ref={tvUnitsRef} />
+                    <input
+                      type="number"
+                      style={areasButton}
+                      ref={tvUnitsRef}
+                      onChange={nextButtonDisableHandler}
+                    />
                   </div>
                 </div>
 
@@ -441,13 +517,19 @@ const ElectricDetail = () => {
                     </button>
                   </Link>
                   <Link to="/modularSolution">
-                    <button
-                      type="button"
-                      style={startBtnMob}
-                      onClick={saveInputsToLocalStorageHandler}
-                    >
-                      Next
-                    </button>
+                    {nextDisabled ? (
+                      <button type="button" style={startBtnMob} disabled>
+                        Next
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        style={startBtnMob}
+                        onClick={saveInputsToLocalStorageHandler}
+                      >
+                        Next
+                      </button>
+                    )}
                   </Link>
                 </div>
               </div>

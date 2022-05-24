@@ -56,7 +56,7 @@ import modularSolutions from "./components/calculator/modularSolutions";
 function App() {
   return (
     <Switch>
-      <Route
+      {/* <Route
         path="/findprofessionals"
         render={(props) => (
           <FindProfessionals {...props} mobileview={isMobile} />
@@ -67,7 +67,7 @@ function App() {
         render={(props) => (
           <FindProfessionals {...props} mobileview={isMobile} />
         )}
-      />
+      /> */}
 
       <Route exact path="/calculatorFrame" component={calculatorFrame} />
       <Route exact path="/electrical" component={electrical} />
@@ -80,12 +80,8 @@ function App() {
       <Route exact path="/paneling" component={Paneling} />
       <Route exact path="/modularSolution" component={modularSolutions} />
       <Route exact path="/renovationTypes" component={renovationTypes} />
-      <Route
-        exact
-        path="/renovationCalculator"
-        component={renovationCalculator}
-      />
-      <Route exact path="/exploreprojects" component={ExploreProjects} />
+      <Route exact path="/" component={renovationCalculator} />
+      {/* <Route exact path="/exploreprojects" component={ExploreProjects} />
       <Route exact path="/magazines" component={Magazines} />
       <Route exact path="/idesignexclusive" component={Idesignexclusive} />
       <Route
@@ -93,7 +89,6 @@ function App() {
         path="/projects/:city/:name"
         component={ExploreProjectDetais}
       />
-      {/* <Route exact path="/brand/:city/:company" component={BrandsDetails} /> */}
       <Route exact path="/brand/:id/" component={BrandsDetails} />
       <Route exact path="/brands" component={Brands} />
       <Route exact path="/magazine/:category/:title" component={Blogs} />
@@ -128,12 +123,11 @@ function App() {
       <Route exact path="/dashboard/photos" component={Photo} />
       <Route exact path="/dashboard/magazines" component={DashboardMagazines} />
       <Route exact path="/dashboard/brands" component={Dbrands} />
-      {/* <Route path="/dashboard/help" component={Help} /> */}
-
+      
       <Route
         path="/"
         render={(props) => <Home {...props} mobileview={isMobile} />}
-      />
+      /> */}
     </Switch>
   );
 }

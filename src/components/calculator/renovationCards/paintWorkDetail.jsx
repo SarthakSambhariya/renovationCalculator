@@ -9,6 +9,7 @@ const PaintWorkDetail = () => {
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
   const wardrobesRef = useRef();
   const tvUnitsRef = useRef();
+  const [nextDisabled, setNextDisabled] = useState(true);
 
   useEffect(() => {
     function handleResize() {
@@ -23,7 +24,19 @@ const PaintWorkDetail = () => {
     localStorage.setItem("wardrobes", wardrobesRef.current.value);
     localStorage.setItem("tvUnits", tvUnitsRef.current.value);
   };
-  
+
+  const nextButtonDisableHandler = () => {
+    if (
+      tvUnitsRef.current.value.trim() !== "" &&
+      wardrobesRef.current.value.trim() !== "" &&
+      localStorage.getItem("modularKitchenNeeded")
+    )
+      setNextDisabled(false);
+    else {
+      setNextDisabled(true);
+    }
+  };
+
   const textClass = {
     fontFamily: "DM Serif Display",
     color: "#000000",
@@ -139,6 +152,17 @@ const PaintWorkDetail = () => {
     fontSize: "15px",
     textAlign: "center",
   };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
+    borderRadius: "6px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    padding: "8px 20px",
+    fontSize: "15px",
+    textAlign: "center",
+  };
   const backBtn = {
     background: "white",
     borderRadius: "6px",
@@ -150,29 +174,29 @@ const PaintWorkDetail = () => {
     textAlign: "center",
     fontWeight: "600",
   };
-  const startBtnMob = {
-    background: "linear-gradient(180deg, #3B5998 0%, #082B76 100%)",
-    borderRadius: "3px",
-    color: "white",
-    border: "none",
-    marginTop: "15px",
-    marginBottom: "20px",
-    padding: "5px 20px",
-    fontSize: "15px",
-    textAlign: "center",
-  };
-  const endBtnMob = {
-    background: "white",
-    borderRadius: "3px",
-    color: "#082B76",
-    border: "2px solid #082B76",
-    marginTop: "15px",
-    marginBottom: "20px",
-    padding: "5px 20px",
-    fontSize: "15px",
-    textAlign: "center",
-    fontWeight: "600",
-  };
+  // const startBtnMob = {
+  //   background: "linear-gradient(180deg, #3B5998 0%, #082B76 100%)",
+  //   borderRadius: "3px",
+  //   color: "white",
+  //   border: "none",
+  //   marginTop: "15px",
+  //   marginBottom: "20px",
+  //   padding: "5px 20px",
+  //   fontSize: "15px",
+  //   textAlign: "center",
+  // };
+  // const endBtnMob = {
+  //   background: "white",
+  //   borderRadius: "3px",
+  //   color: "#082B76",
+  //   border: "2px solid #082B76",
+  //   marginTop: "15px",
+  //   marginBottom: "20px",
+  //   padding: "5px 20px",
+  //   fontSize: "15px",
+  //   textAlign: "center",
+  //   fontWeight: "600",
+  // };
   const hrStyle = {
     height: "480px",
     width: "15px",
@@ -239,6 +263,7 @@ const PaintWorkDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", true);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -256,6 +281,7 @@ const PaintWorkDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", false);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -275,12 +301,18 @@ const PaintWorkDetail = () => {
                       type="number"
                       style={areasButton}
                       ref={wardrobesRef}
+                      onChange={nextButtonDisableHandler}
                     />
                   </div>
                   <p style={formText}>How many TV Units do you require ?</p>
                   <div style={box}>
                     <input style={areasInput} disabled placeholder="TV Units" />
-                    <input type="number" style={areasButton} ref={tvUnitsRef} />
+                    <input
+                      type="number"
+                      style={areasButton}
+                      ref={tvUnitsRef}
+                      onChange={nextButtonDisableHandler}
+                    />
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -373,6 +405,8 @@ const PaintWorkDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", true);
+
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -390,6 +424,8 @@ const PaintWorkDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", false);
+
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -413,6 +449,7 @@ const PaintWorkDetail = () => {
                       type="number"
                       style={areasButton}
                       ref={wardrobesRef}
+                      onChange={nextButtonDisableHandler}
                     />
                   </div>
                   <p style={formText}>How many TV Units do you require ?</p>
@@ -422,7 +459,12 @@ const PaintWorkDetail = () => {
                       disabled
                       placeholder="TV Units"
                     />
-                    <input type="number" style={areasButton} ref={tvUnitsRef} />
+                    <input
+                      type="number"
+                      style={areasButton}
+                      ref={tvUnitsRef}
+                      onChange={nextButtonDisableHandler}
+                    />
                   </div>
                 </div>
                 <div className="col-md-6">

@@ -18,11 +18,6 @@ function getScreenWidth() {
 
 const RenovationTypes = () => {
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
-  const [paintWorkSelected, setPaintWorkSelected] = useState(false);
-  const [electricalWorkSelected, setElectricalWorkSelected] = useState(false);
-  const [ceilingWorkSelected, setCeilingWorkSelected] = useState(false);
-  const [panelWorkSelected, setPanelWorkSelected] = useState(false);
-  const [civilWorkSelected, setCivilWorkSelected] = useState(false);
   const workSelectedCtx = useContext(workSelectedContext);
 
   useEffect(() => {
@@ -47,7 +42,6 @@ const RenovationTypes = () => {
     borderRadius: "8px",
     background: "#F1F1F1",
     marginTop: "0px",
-    // transform: "rotate(-90deg)",
   };
   const hrStyleProgress = {
     height: "320px",
@@ -112,8 +106,8 @@ const RenovationTypes = () => {
   const textClass = {
     fontFamily: "DM Serif Display",
     color: "#000000",
-    fontWeight: "500",
-    fontSize: "3.3rem",
+    fontWeight: "400",
+    fontSize: "48px",
     marginTop: "20px",
   };
   const textClassMob = {
@@ -130,7 +124,7 @@ const RenovationTypes = () => {
     textAlign: "center",
     marginTop: "12px",
     marginBottom: "32px",
-    fontSize: "2em",
+    fontSize: "24px",
   };
   const services = {
     textAlign: "center",
@@ -171,6 +165,19 @@ const RenovationTypes = () => {
     border: "none",
     marginTop: "15px",
     padding: "8px 20px",
+    fontSize: "20px",
+    textAlign: "center",
+    height:"54px",
+width:"164px"
+  };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
+    borderRadius: "6px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    padding: "8px 20px",
     fontSize: "15px",
     textAlign: "center",
   };
@@ -181,11 +188,13 @@ const RenovationTypes = () => {
     border: "2px solid #2E337F",
     marginTop: "15px",
     padding: "8px 20px",
-    fontSize: "15px",
+    fontSize: "20px",
     textAlign: "center",
     fontWeight: "600",
+    height:"54px",
+width:"164px"
   };
-  // const { pathname } = useLocation();
+
   return (
     <React.Fragment>
       {screenWidth > 600 && (
@@ -208,7 +217,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setElectricalWorkSelected(true);
                         workSelectedCtx.removeWork("Electrical");
                         localStorage.setItem("electricalWork", false);
                       }}
@@ -224,7 +232,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setElectricalWorkSelected(true);
                         workSelectedCtx.addWork("Electrical");
                         localStorage.setItem("electricalWork", true);
                       }}
@@ -244,7 +251,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCeilingWorkSelected(true);
                         workSelectedCtx.removeWork("False Ceiling");
                         localStorage.setItem("falseCeiling", false);
                       }}
@@ -260,7 +266,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCeilingWorkSelected(true);
                         workSelectedCtx.addWork("False Ceiling");
                         localStorage.setItem("falseCeiling", true);
                       }}
@@ -269,19 +274,12 @@ const RenovationTypes = () => {
                       <h5 style={services}>False Ceiling</h5>
                     </div>
                   )}
-                  {/* <Link to="/ceiling">
-                    <div>
-                      <img className="mx-auto d-block" src={ceiling} alt="" />
-                      <h5 style={services}>False Ceiling</h5>
-                    </div>
-                  </Link> */}
                 </div>
                 <div className="col-md-4 margin">
                   {workSelectedCtx.selectedWorks.includes("Paint Work") ? (
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPaintWorkSelected(true);
                         workSelectedCtx.removeWork("Paint Work");
                         localStorage.setItem("paintWork", false);
                       }}
@@ -297,7 +295,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPaintWorkSelected(true);
                         workSelectedCtx.addWork("Paint Work");
                         localStorage.setItem("paintWork", true);
                       }}
@@ -306,8 +303,6 @@ const RenovationTypes = () => {
                       <h5 style={services}>Paint Work</h5>
                     </div>
                   )}
-                  {/* <Link to="/paintWork"> */}
-                  {/* </Link> */}
                 </div>
               </div>
               <div className="row mt-5">
@@ -318,7 +313,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCivilWorkSelected(true);
                         workSelectedCtx.removeWork("Tiling and Civil work");
                         localStorage.setItem("tilingAndCivilWork", false);
                       }}
@@ -334,7 +328,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCivilWorkSelected(true);
                         workSelectedCtx.addWork("Tiling and Civil work");
                         localStorage.setItem("tilingAndCivilWork", true);
                       }}
@@ -343,12 +336,6 @@ const RenovationTypes = () => {
                       <h5 style={services}>Tiling and Civil work</h5>
                     </div>
                   )}
-                  {/* <Link to="/civilWork">
-                    <div>
-                      <img className="mx-auto d-block" src={civil} alt="" />
-                      <h5 style={services}>Tiling and Civil work</h5>
-                    </div>
-                  </Link> */}
                 </div>
                 <div className="col-md-4 margin">
                   {workSelectedCtx.selectedWorks.includes(
@@ -357,7 +344,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPanelWorkSelected(true);
                         workSelectedCtx.removeWork("Partition & Panelling");
                         localStorage.setItem("partitionAndPanelling", false);
                       }}
@@ -373,7 +359,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPanelWorkSelected(true);
                         workSelectedCtx.addWork("Partition & Panelling");
                         localStorage.setItem("partitionAndPanelling", true);
                       }}
@@ -382,12 +367,6 @@ const RenovationTypes = () => {
                       <h5 style={services}>Partition & Panelling</h5>
                     </div>
                   )}
-                  {/* <Link to="/paneling">
-                    <div>
-                      <img className="mx-auto d-block" src={paneling} alt="" />
-                      <h5 style={services}>Patrition & Panelling</h5>
-                    </div>
-                  </Link> */}
                 </div>
                 <div className="d-flex justify-content-between mt-4 mb-3 ps-5 pe-5">
                   <Link to="/renovationCalculator">
@@ -396,9 +375,15 @@ const RenovationTypes = () => {
                     </button>
                   </Link>
                   <Link to="/electrical">
-                    <button type="button" style={startBtn}>
-                      Next
-                    </button>
+                    {workSelectedCtx.selectedWorks.length===0 ? (
+                      <button type="button" style={startBtnDisabled} disabled>
+                        Next
+                      </button>
+                    ) : (
+                      <button type="button" style={startBtn}>
+                        Next
+                      </button>
+                    )}
                   </Link>
                 </div>
               </div>
@@ -435,7 +420,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setElectricalWorkSelected(true);
                         workSelectedCtx.removeWork("Electrical");
                         localStorage.setItem("electricalWork", false);
                       }}
@@ -451,7 +435,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setElectricalWorkSelected(true);
                         workSelectedCtx.addWork("Electrical");
                         localStorage.setItem("electricalWork", true);
                       }}
@@ -464,21 +447,11 @@ const RenovationTypes = () => {
                       <h5 style={servicesMob}>Electrical</h5>
                     </div>
                   )}
-                  {/* <Link to="/electrical">
-                    <div className="">
-                      <img
-                        className="mx-auto d-block"
-                        src={electrical}
-                        alt=""
-                      />
-                      <h5 style={servicesMob}>Electrical</h5>
-                    </div>
-                  </Link> */}
+
                   {workSelectedCtx.selectedWorks.includes("False Ceiling") ? (
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCeilingWorkSelected(true);
                         workSelectedCtx.removeWork("False Ceiling");
                         localStorage.setItem("falseCeiling", false);
                       }}
@@ -494,7 +467,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCeilingWorkSelected(true);
                         workSelectedCtx.addWork("False Ceiling");
                         localStorage.setItem("falseCeiling", true);
                       }}
@@ -503,12 +475,6 @@ const RenovationTypes = () => {
                       <h5 style={servicesMob}>False Ceiling</h5>
                     </div>
                   )}
-                  {/* <Link to="/ceiling">
-                    <div>
-                      <img className="mx-auto d-block" src={ceiling} alt="" />
-                      <h5 style={servicesMob}>False Ceiling</h5>
-                    </div>
-                  </Link> */}
                 </div>
                 <div className="col-md-6 d-flex" style={{ marginTop: "9%" }}>
                   {workSelectedCtx.selectedWorks.includes(
@@ -517,7 +483,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCivilWorkSelected(true);
                         workSelectedCtx.removeWork("Tiling and Civil work");
                         localStorage.setItem("tilingAndCivilWork", false);
                       }}
@@ -533,7 +498,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setCivilWorkSelected(true);
                         workSelectedCtx.addWork("Tiling and Civil work");
                         localStorage.setItem("tilingAndCivilWork", true);
                       }}
@@ -542,22 +506,13 @@ const RenovationTypes = () => {
                       <h5 style={servicesMob}>Tiling and Civil work</h5>
                     </div>
                   )}
-                  {/* <Link to="/civilWork">
-                    <div>
-                      <img className="mx-auto d-block" src={civil} alt="" />
-                      <h5 style={servicesMob}>
-                        Tiling and Civil
-                        <br /> work
-                      </h5>
-                    </div>
-                  </Link> */}
+
                   {workSelectedCtx.selectedWorks.includes(
                     "Partition & Panelling"
                   ) ? (
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPanelWorkSelected(true);
                         workSelectedCtx.removeWork("Partition & Panelling");
                         localStorage.setItem("partitionAndPanelling", false);
                       }}
@@ -573,7 +528,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPanelWorkSelected(true);
                         workSelectedCtx.addWork("Partition & Panelling");
                         localStorage.setItem("partitionAndPanelling", true);
                       }}
@@ -582,14 +536,6 @@ const RenovationTypes = () => {
                       <h5 style={servicesMob}>Patrition & Panelling</h5>
                     </div>
                   )}
-                  {/* <Link to="/paneling">
-                    <div>
-                      <img className="mx-auto d-block" src={paneling} alt="" />
-                      <h5 style={servicesMob}>
-                        Patrition &<br /> Panelling
-                      </h5>
-                    </div>
-                  </Link> */}
                 </div>
                 <div
                   className="col-md-6 d-flex"
@@ -599,7 +545,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPaintWorkSelected(true);
                         workSelectedCtx.removeWork("Paint Work");
                         localStorage.setItem("paintWork", false);
                       }}
@@ -615,7 +560,6 @@ const RenovationTypes = () => {
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        setPaintWorkSelected(true);
                         workSelectedCtx.addWork("Paint Work");
                         localStorage.setItem("paintWork", true);
                       }}
@@ -624,12 +568,6 @@ const RenovationTypes = () => {
                       <h5 style={servicesMob}>Paint Work</h5>
                     </div>
                   )}
-                  {/* <Link to="/paintWork">
-                    <div>
-                      <img className="mx-auto d-block" src={paint} alt="" />
-                      <h5 style={servicesMob}>Paint Work</h5>
-                    </div>
-                  </Link> */}
                 </div>
 
                 <div className="d-flex justify-content-between mt-5 mb-3 ps-5 pe-5">
@@ -639,9 +577,15 @@ const RenovationTypes = () => {
                     </button>
                   </Link>
                   <Link to="/electrical">
-                    <button type="button" style={startBtn}>
-                      Next
-                    </button>
+                    {workSelectedCtx.selectedWorks.length===0 ? (
+                      <button type="button" style={startBtnDisabled} disabled>
+                        Next
+                      </button>
+                    ) : (
+                      <button type="button" style={startBtn}>
+                        Next
+                      </button>
+                    )}
                   </Link>
                 </div>
               </div>

@@ -13,11 +13,17 @@ const workSelectedReducer = (state, action) => {
         selectedWorks: updatedSelectedWorks,
       };
     }
-  } else if ((action.type = "REMOVE_WORK")) {
-    let index = state.selectedWorks.indexOf(`${action.work}`);
-    if (index !== -1) {
-      state.selectedWorks.splice(index, 1);
+  }
+  if ((action.type = "REMOVE_WORK")) {
+    let index = state.selectedWorks.indexOf(action.work);
+    console.log(`index: ${index}`);
+    if (index === -1) {
+      return;
     }
+
+    console.log(`state.selectedWorks BEFORE: ${state.selectedWorks}`);
+    state.selectedWorks.splice(index, 1);
+
     return {
       selectedWorks: state.selectedWorks,
     };
@@ -32,7 +38,6 @@ const WorkSelectedProvider = (props) => {
   );
 
   const addWorkToSelectedWorks = (work) => {
-    console.log(selectedWorksState);
     dispatchWorkSelectionAction({ type: "ADD_WORK", work: work });
   };
   const removeWorkFromSelectedWorks = (work) => {

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import room from "../../../images/room bed 1.png";
@@ -10,6 +11,8 @@ const CeilingDetail = () => {
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
   const wardrobesRef = useRef();
   const tvUnitsRef = useRef();
+  const [nextDisabled, setNextDisabled] = useState(true);
+
   useEffect(() => {
     function handleResize() {
       setScreenWidth(getScreenWidth());
@@ -19,9 +22,138 @@ const CeilingDetail = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // const appartemnt = 
+  const save = async()=>{
+    
+
+    const bedroom= localStorage.getItem("bedroom")
+    const bathroom=localStorage.getItem("bathroom")
+    const kitchen=localStorage.getItem("kitchen")
+    const living=localStorage.getItem("dining")
+    const carpetArea=localStorage.getItem("carpetArea")
+    const bungalow=(localStorage.getItem("propertyType")!=null  && localStorage.getItem("propertyType")=="bungalow" )?true:false
+    const apartment=(localStorage.getItem("propertyType")!=null  && localStorage.getItem("propertyType")=="apartment" )?true:false
+  
+    const modularKitchen=localStorage.getItem("modularKitchenNeeded")
+    const bedRoomWardrobes=localStorage.getItem("wardrobes")
+    const tvUnits=localStorage.getItem("tvUnits")
+
+    const electricalWork = (localStorage.getItem("electricalWork")!=null && localStorage.getItem("electricalWork")==true)?true : false 
+    const falseCeilingWork = (localStorage.getItem("falseCeiling")!=null && localStorage.getItem("falseCeiling")==true)?true : false 
+    const paintWork = (localStorage.getItem("paintWork")!=null && localStorage.getItem("paintWork")==true)?true : false 
+    const tilingAndCivilWork = (localStorage.getItem("tilingAndCivilWork")!=null && localStorage.getItem("tilingAndCivilWork")==true)?true : false 
+    const patritionAndpanellingWork = (localStorage.getItem("patritionAndpanellingWork")!=null && localStorage.getItem("patritionAndpanellingWork")==true)?true : false 
+
+    const electricalLow=   (localStorage.getItem("electricalWorkPlanSelected")!=null  && localStorage.getItem("electricalWorkPlanSelected")=="Low" )?true:false
+    const electricalStandard= (localStorage.getItem("electricalWorkPlanSelected")!=null  && localStorage.getItem("electricalWorkPlanSelected")=="Standard")?true:false
+    const electricalExtensive= (localStorage.getItem("electricalWorkPlanSelected")!=null  && localStorage.getItem("electricalWorkPlanSelected")=="Extensive" )?true:false
+    
+
+    const FalseCeilingLow= (localStorage.getItem("falseCeilingWorkSelected")!=null  && localStorage.getItem("falseCeilingWorkSelected")=="Low" )?true:false
+    const FalseCeilingStandard= (localStorage.getItem("falseCeilingWorkSelected")!=null  && localStorage.getItem("falseCeilingWorkSelected")=="Standard" )?true:false
+    const FalseCeilingExtensive= (localStorage.getItem("falseCeilingWorkSelected")!=null  && localStorage.getItem("falseCeilingWorkSelected")=="Extensive" )?true:false
+
+    const PaintWorkLow= (localStorage.getItem("paintWorkSelected")!=null  && localStorage.getItem("paintWorkSelected")=="Low" )?true:false
+    const PaintWorkStandard= (localStorage.getItem("paintWorkSelected")!=null  && localStorage.getItem("paintWorkSelected")=="Standard" )?true:false
+    const PaintWorkExtensive= (localStorage.getItem("paintWorkSelected")!=null  && localStorage.getItem("paintWorkSelected")=="Extensive" )?true:false
+
+    const TilingAndCivilLow= (localStorage.getItem("tilingAndCivilWorkSelected")!=null  && localStorage.getItem("tilingAndCivilWorkSelected")=="Low" )?true:false
+    const TilingAndCivilStandard= (localStorage.getItem("tilingAndCivilWorkSelected")!=null  && localStorage.getItem("tilingAndCivilWorkSelected")=="Standard")?true:false
+    const TilingAndCivilExtensive= (localStorage.getItem("tilingAndCivilWorkSelected")!=null  && localStorage.getItem("tilingAndCivilWorkSelected")=="Extensive" )?true:false
+
+    const PatritionAndpanellingLow= (localStorage.getItem("patritionAndpanellingWorkSelected")!=null  && localStorage.getItem("patritionAndpanellingWorkSelected")=="Low")?true:false
+    const PatritionAndpanellingStandard= (localStorage.getItem("patritionAndpanellingWorkSelected")!=null  && localStorage.getItem("patritionAndpanellingWorkSelected")=="Standard" )?true:false
+    const PatritionAndpanellingExtensive= (localStorage.getItem("patritionAndpanellingWorkSelected")!=null  && localStorage.getItem("patritionAndpanellingWorkSelected")=="Extensive" )?true:false
+
+
+
+    try {
+      const response = await axios.post("https://reno-api.idesign.market/api/savecalculation",{
+        "PropertyType":{
+            "isApartment": apartment,
+            "isBungalow": bungalow
+    
+        },
+        "CarpetArea": carpetArea,
+        "Areas_Renovate": {
+            "Bedroom": bedroom,
+            "Bathroom": bathroom,
+            "Kitchen": kitchen,
+            "Living": living
+    
+        },
+        "WorksWeWant": {
+            
+            "Electrical": electricalWork,
+            "FalseCeiling" : falseCeilingWork,
+            "PaintWork": paintWork,
+            "TilingAndCivil":tilingAndCivilWork,
+            "PatritionAndpanelling": patritionAndpanellingWork
+        },
+        "Budget":{
+            "Electrical": {
+                "low": electricalLow,
+                "Standard": electricalStandard,
+                "Extensive": electricalExtensive
+            },
+            "FalseCeiling": {
+              "low": FalseCeilingLow,
+              "Standard": FalseCeilingStandard,
+              "Extensive": FalseCeilingExtensive
+          },
+          "PaintWork": {
+            "low":  PaintWorkLow,
+            "Standard":  PaintWorkStandard,
+            "Extensive":  PaintWorkExtensive
+        },
+        "TilingAndCivil": {
+          "low": TilingAndCivilLow,
+          "Standard": TilingAndCivilStandard,
+          "Extensive": TilingAndCivilExtensive
+      },
+            "PatritionAndpanelling":{
+              "low": PatritionAndpanellingLow,
+              "Standard": PatritionAndpanellingStandard,
+              "Extensive": PatritionAndpanellingExtensive
+            }
+        },
+            "ModularSolution":{
+                "ModularKitchen" : modularKitchen,
+                "BedroomWardrobes": bedRoomWardrobes ,
+                "TvUnits": tvUnits
+            }
+        }) 
+        if(response)
+        console.log(  'res'+response)
+    } catch (error) {
+      console.log(error)
+    }
+
+
+  }
+
   const saveInputsToLocalStorageHandler = () => {
     localStorage.setItem("wardrobes", wardrobesRef.current.value);
     localStorage.setItem("tvUnits", tvUnitsRef.current.value);
+   save();
+  };
+
+  // const data = {
+
+  // }
+
+  
+
+  const nextButtonDisableHandler = () => {
+    if (
+      tvUnitsRef.current.value.trim() !== "" &&
+      wardrobesRef.current.value.trim() !== "" &&
+      localStorage.getItem("modularKitchenNeeded")
+    )
+      setNextDisabled(false);
+    else {
+      setNextDisabled(true);
+    }
   };
 
   const hrStyleProgress = {
@@ -94,6 +226,17 @@ const CeilingDetail = () => {
   };
   const startBtn = {
     background: "linear-gradient(180deg, #3B5998 0%, #082B76 100%)",
+    borderRadius: "6px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    padding: "8px 20px",
+    fontSize: "15px",
+    textAlign: "center",
+  };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
     borderRadius: "6px",
     color: "white",
     border: "none",
@@ -197,6 +340,7 @@ const CeilingDetail = () => {
     marginTop: "25px",
     marginBottom: "8px",
   };
+  // console.log(localStorage.getItem('bedroom'));
   return (
     <React.Fragment>
       {screenWidth > 600 && (
@@ -217,6 +361,7 @@ const CeilingDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", true);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -238,6 +383,7 @@ const CeilingDetail = () => {
                         for="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", false);
+                          nextButtonDisableHandler();
                         }}
                       >
                         No
@@ -253,12 +399,13 @@ const CeilingDetail = () => {
                       type="number"
                       style={areasButton}
                       ref={wardrobesRef}
+                      onChange={nextButtonDisableHandler}
                     />
                   </div>
                   <p style={formText}>How many TV Units do you require ?</p>
                   <div style={box}>
                     <input style={areasInput} disabled placeholder="TV Units" />
-                    <input type="number" style={areasButton} ref={tvUnitsRef} />
+                    <input type="number" style={areasButton} ref={tvUnitsRef} onChange={nextButtonDisableHandler}/>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -351,6 +498,7 @@ const CeilingDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", true);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -368,6 +516,7 @@ const CeilingDetail = () => {
                         id="flexRadioDefault1"
                         onClick={() => {
                           localStorage.setItem("modularKitchenNeeded", false);
+                          nextButtonDisableHandler();
                         }}
                       />
                       <label
@@ -391,6 +540,7 @@ const CeilingDetail = () => {
                       type="number"
                       style={areasButton}
                       ref={wardrobesRef}
+                      onChange={nextButtonDisableHandler}
                     />
                   </div>
                   <p style={formText}>How many TV Units do you require ?</p>
@@ -400,7 +550,7 @@ const CeilingDetail = () => {
                       disabled
                       placeholder="TV Units "
                     />
-                    <input type="number" style={areasButton} ref={tvUnitsRef} />
+                    <input type="number" style={areasButton} ref={tvUnitsRef} onChange={nextButtonDisableHandler}/>
                   </div>
                 </div>
                 <div className="col-md-6 mt-3">

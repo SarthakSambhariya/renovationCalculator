@@ -9,6 +9,10 @@ function getScreenWidth() {
 const Paneling = () => {
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
   const workSelectedCtx = useContext(workSelectedContext);
+  const [selectedPlanLow, setSelectedPlanLow] = useState(false);
+  const [selectedPlanStandard, setSelectedPlanStandard] = useState(false);
+  const [selectedPlanExtensive, setSelectedPlanExtensive] = useState(false);
+  const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
 
   useEffect(() => {
     function handleResize() {
@@ -122,6 +126,17 @@ const Paneling = () => {
     fontSize: "15px",
     textAlign: "center",
   };
+  const startBtnDisabled = {
+    background:
+      "linear-gradient(180deg, rgba(59, 89, 152, 0.5) 0%, rgba(8, 43, 118, 0.4) 100%)",
+    borderRadius: "6px",
+    color: "white",
+    border: "none",
+    marginTop: "15px",
+    padding: "8px 20px",
+    fontSize: "15px",
+    textAlign: "center",
+  };
   const backBtn = {
     background: "white",
     borderRadius: "6px",
@@ -181,16 +196,19 @@ const Paneling = () => {
       name: "Low",
       image: "https://i.ibb.co/VSdkpFw/Group.png",
       text: " Involves basic renovation with a few panelling works",
+      selected: selectedPlanLow,
     },
     {
       name: "Standard",
       image: "https://i.ibb.co/3hH4XLZ/Group-1.png",
       text: " Involves regular renovation of home including panelling in most spaces, partition or pelmets",
+      selected: selectedPlanStandard,
     },
     {
       name: "Extensive",
       image: `${extensive}`,
       text: "Involves comprehensive renovation of home including extensive panelling, partitions, wooden ceilings",
+      selected: selectedPlanExtensive,
     },
   ];
   return (
@@ -249,13 +267,11 @@ const Paneling = () => {
                   {paneling.map((data) => (
                     <div
                       className="d-flex shadow p-3 mb-3 bg-body justify-content-evenly"
+                      style={{
+                        border: data.selected ? "2px solid #2CBF81" : "",
+                        borderRadius: "7px",
+                      }}
                       key={data.name}
-                      onClick={() =>
-                        localStorage.setItem(
-                          "partitionAndPanellingWorkPlanSelected",
-                          `${data.name}`
-                        )
-                      }
                     >
                       <img src={data.image} style={icon} alt="" />
                       <div>
@@ -268,6 +284,26 @@ const Paneling = () => {
                           type="radio"
                           name="flexRadioDefault"
                           id="flexRadioDefault1"
+                          onClick={() => {
+                            localStorage.setItem(
+                              "partitionAndPanellingWorkPlanSelected",
+                              `${data.name}`
+                            );
+                            setNextBtnDisabled(false);
+                            if (data.name === "Low") {
+                              setSelectedPlanLow(true);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Standard") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(true);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Extensive") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(true);
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -282,9 +318,15 @@ const Paneling = () => {
                   </button>
                 </Link>
                 <Link to="/paintWorkDetail">
-                  <button type="button" style={startBtn}>
-                    Next
-                  </button>
+                  {nextBtnDisabled ? (
+                    <button type="button" style={startBtnDisabled} disabled>
+                      Next
+                    </button>
+                  ) : (
+                    <button type="button" style={startBtn}>
+                      Next
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
@@ -389,13 +431,11 @@ const Paneling = () => {
                   {paneling.map((data) => (
                     <div
                       className="d-flex shadow p-3 mb-3 bg-body justify-content-evenly"
+                      style={{
+                        border: data.selected ? "2px solid #2CBF81" : "",
+                        borderRadius: "7px",
+                      }}
                       key={data.name}
-                      onClick={() =>
-                        localStorage.setItem(
-                          "partitionAndPanellingWorkPlanSelected",
-                          `${data.name}`
-                        )
-                      }
                     >
                       <img src={data.image} style={icon} alt="" />
                       <div>
@@ -408,6 +448,26 @@ const Paneling = () => {
                           type="radio"
                           name="flexRadioDefault"
                           id="flexRadioDefault1"
+                          onClick={() => {
+                            localStorage.setItem(
+                              "partitionAndPanellingWorkPlanSelected",
+                              `${data.name}`
+                            );
+                            setNextBtnDisabled(false);
+                            if (data.name === "Low") {
+                              setSelectedPlanLow(true);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Standard") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(true);
+                              setSelectedPlanExtensive(false);
+                            } else if (data.name === "Extensive") {
+                              setSelectedPlanLow(false);
+                              setSelectedPlanStandard(false);
+                              setSelectedPlanExtensive(true);
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -422,9 +482,15 @@ const Paneling = () => {
                   </button>
                 </Link>
                 <Link to="/paintWorkDetail">
-                  <button type="button" style={startBtn}>
-                    Next
-                  </button>
+                  {nextBtnDisabled ? (
+                    <button type="button" style={startBtnDisabled} disabled>
+                      Next
+                    </button>
+                  ) : (
+                    <button type="button" style={startBtn}>
+                      Next
+                    </button>
+                  )}
                 </Link>
               </div>
             </div>
